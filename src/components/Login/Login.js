@@ -26,7 +26,9 @@ export default function Login() {
   return (
     <main className="signin">
       <section className="signin__section">
-        <Logo />
+        <header className="signin__header-logo">
+          <Logo />
+        </header>
         <h2 className="signin__title">Рады видеть!</h2>
 
         <form
