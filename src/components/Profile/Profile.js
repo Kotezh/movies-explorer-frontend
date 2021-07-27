@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import "./Profile.css";
 import { REQUEST_ERROR_TEXT } from "../../utils/constants";
+import { useHistory } from "react-router-dom";
 
 export default function Profile() {
   const email = "test@email.ru";
   const [userName, setUserName] = useState("Надежда");
   const [isError, setIsError] = useState(false);
+  const history = useHistory();
 
   function handleChange(e) {
     e.preventDefault();
@@ -19,7 +21,7 @@ export default function Profile() {
 
   function handleTest(e) {
     e.preventDefault();
-    window.location.assign("http://localhost:3000/");
+    history.push('/');
   }
 
   return (
