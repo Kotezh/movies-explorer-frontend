@@ -1,10 +1,18 @@
-# Movies-explorer-frontend
+# Проект «Movies explorer»
 
-### `npm start`
+Описание: Сервис, в котором можно найти фильмы по запросу и сохранить в личном кабинете. 
 
-### `npm run build`
+Стек: HTML, CSS, БЭМ, JavaScript, React.js, Webpack, Git, Express.js, Node.js 
+
+Функционал: На главной странице находится информация о дипломной работе, обо мне, а также есть ссылки на выполненные за время обучения проекты. В проекте реализованы регистрация и авторизация пользователя. На странице Фильмы можно искать фильмы по названию, фильтровать короткометражки, сохранять фильмы в избранное. На странице Сохранённые фильмы отображаются сохранённые фильмы, их можно удалять фильмы из избранного, искать по названию и также фильтровать короткометражки.
+
+Ссылки на репозитории проекта: 
+
+  - frontend: https://github.com/Kotezh/movies-explorer-frontend
+
+  - backend: https://github.com/Kotezh/movies-explorer-api
+
+Ссылка на проект: https://kotezh.diploma.nomoredomains.monster
+
 Макет в Фигме:
 https://www.figma.com/file/AbVkW7BBRnz1dTU5bVco7m/Diploma?node-id=932%3A2802
-Домен:
-kotezh.diploma.nomoredomains.monster
-

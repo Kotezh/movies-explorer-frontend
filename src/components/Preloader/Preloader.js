@@ -1,5 +1,5 @@
-import React from 'react';
-import './Preloader.css';
+import React from "react";
+import "./Preloader.css";
 
 export default function Preloader() {
   return (
@@ -8,5 +8,5 @@ export default function Preloader() {
         <span className="preloader__round"></span>
       </div>
     </div>
-    )
-};
+  );
+}

@@ -36,7 +36,7 @@ export default function Profile() {
             Имя
             <input
               name="user-name"
-              placeholder="Имя"
+              placeholder="Введите имя"
               id="user-name"
               type="text"
               className="profile__input"
@@ -71,24 +71,24 @@ export default function Profile() {
           >
             {REQUEST_ERROR_TEXT}
           </span>
-            <button
-              name="submit"
-              type="submit"
-              className="profile__btn profile__btn_type_submit"
-              value="Редактировать"
-            >
-              Редактировать
-            </button>
+          <button
+            name="submit"
+            type="submit"
+            className="profile__btn profile__btn_type_submit"
+            value="Редактировать"
+          >
+            Редактировать
+          </button>
         </form>
         <button
-              name="logout"
-              type="submit"
-              className="profile__btn profile__btn_type_logout"
-              value="Выйти из аккаунта"
-              onClick={handleTest}
-            >
-              Выйти из аккаунта
-            </button>
+          name="logout"
+          type="submit"
+          className="profile__btn profile__btn_type_logout"
+          value="Выйти из аккаунта"
+          onClick={handleTest}
+        >
+          Выйти из аккаунта
+        </button>
       </section>
     </main>
   );

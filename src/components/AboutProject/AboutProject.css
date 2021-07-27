@@ -21,6 +21,7 @@
 }
 
 .about-project__column {
+  max-width: 550px;
 }
 
 .about-project__column:first-child {
@@ -64,11 +65,14 @@
   box-sizing: border-box;
 }
 
+.about-project__diagram-text_bottom {
+  padding: 12px 0 0;
+}
+
 .about-project__diagram-text_green {
   color: #000000;
   font-weight: 400;
   background-color: #3ddc84;
-  //width: 228px;
   height: 36px;
 }
 
@@ -84,7 +88,7 @@
     padding: 90px 50px;
   }
   .about-project__columns {
-    padding-bottom:93px;
+    padding-bottom: 93px;
   }
   .about-project__text {
     font-size: 12px;

@@ -43,7 +43,7 @@ export default function Register() {
             <label className="signup__form-label">Имя</label>
             <input
               name="user-name"
-              // placeholder="Имя"
+              placeholder="Введите имя"
               id="user-name"
               type="text"
               className="signup__input"
@@ -62,7 +62,7 @@ export default function Register() {
             <label className="signup__form-label">E-mail</label>
             <input
               name="email"
-              // placeholder="Email"
+              placeholder="Введите свой Email"
               id="email"
               type="email"
               className="signup__input"
@@ -81,7 +81,7 @@ export default function Register() {
             <label className="signup__form-label">Пароль</label>
             <input
               name="password"
-              // placeholder=""
+              placeholder="Придумайте пароль"
               id="password"
               type="password"
               className="signup__input"

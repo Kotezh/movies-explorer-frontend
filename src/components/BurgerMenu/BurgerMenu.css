@@ -105,7 +105,7 @@
 @media screen and (max-width: 380px) {
   .burger-menu__container {
     padding: 144px 10px 46px;
-    margin:0;
+    margin: 0;
   }
   .burger-menu__close {
     right: 22px;

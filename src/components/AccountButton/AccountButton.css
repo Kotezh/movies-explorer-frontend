@@ -25,11 +25,11 @@
 }
 
 .account-button__text {
-  font-family: 'Inter', 'Arial', sans-serif;
+  font-family: "Inter", "Arial", sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 13px;
   line-height: 12px;
-  color: #FFFFFF;
+  color: #ffffff;
   text-decoration: none;
 }

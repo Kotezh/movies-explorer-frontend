@@ -11,9 +11,12 @@ export default function MoviesCard({ onMovieClick, movie }) {
   const handleSave = () => {
     setIsSaved(!isSaved);
   };
-  const movieSavedClassName = location.pathname === "/movies"
-  ? `card__pseudo-item ${isSaved ? "card__pseudo-item_checked" : "card__pseudo-item_unchecked"}`
-  : "card__pseudo-item card__pseudo-item_delete";
+  const movieSavedClassName =
+    location.pathname === "/movies"
+      ? `card__pseudo-item ${
+          isSaved ? "card__pseudo-item_checked" : "card__pseudo-item_unchecked"
+        }`
+      : "card__pseudo-item card__pseudo-item_delete";
 
   return (
     <div className="card">

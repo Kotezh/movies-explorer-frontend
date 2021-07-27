@@ -1,20 +1,19 @@
 .footer {
   max-width: 1140px;
-  //width: 100%;
-  margin: auto 70px 0;
+  margin: 0 70px 0;
   padding: 0 0 20px;
   display: flex;
   flex-direction: column;
 }
 
 .footer__title {
-  font-family: 'Inter', 'Arial', sans-serif;
+  font-family: "Inter", "Arial", sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 13px;
   line-height: 16px;
   text-align: center;
-  color: #8B8B8B;
+  color: #8b8b8b;
   border-bottom: 1px solid #424242;
   padding: 79px 0 20px;
   margin: 0;
@@ -28,8 +27,8 @@
 }
 
 .footer__copyright {
-  color: #FFFFFF;
-  font-family: 'Inter', 'Arial', sans-serif;
+  color: #ffffff;
+  font-family: "Inter", "Arial", sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 13px;
@@ -60,8 +59,8 @@
 
 .footer__link {
   text-decoration: none;
-  color: #FFFFFF;
-  font-family: 'Inter', 'Arial', sans-serif;
+  color: #ffffff;
+  font-family: "Inter", "Arial", sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 13px;
@@ -98,5 +97,4 @@
     font-size: 12px;
     line-height: 15px;
   }
- 
 }

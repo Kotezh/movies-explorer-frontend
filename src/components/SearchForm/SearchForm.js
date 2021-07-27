@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./SearchForm.css";
 import searchIcon from "../../images/search-icon.svg";
-import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
+import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 
 export default function SearchForm({ onSearch }) {
   const [value, setValue] = useState("");

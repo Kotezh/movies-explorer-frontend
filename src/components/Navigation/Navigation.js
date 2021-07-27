@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import "./Navigation.css";
 import { NavLink, useLocation } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
+import "./Navigation.css";
 import AccountButton from "../AccountButton/AccountButton";
 import BurgerMenu from "../BurgerMenu/BurgerMenu";
 import { ESC_KEYCODE } from "../../utils/constants";
@@ -44,27 +44,28 @@ export default function Navigation() {
       )}
       {(location.pathname === "/movies" ||
         location.pathname === "/saved-movies" ||
-        location.pathname === "/profile") && !isMobile && (
-        <>
-          <div className="navigation">
-            <NavLink
-              to="/movies"
-              activeClassName="navigation__link_active"
-              className="navigation__link_movie"
-            >
-              Фильмы
-            </NavLink>
-            <NavLink
-              to="/saved-movies"
-              activeClassName="navigation__link_active"
-              className="navigation__link_movie "
-            >
-              Сохранённые фильмы
-            </NavLink>
-          </div>
-          <AccountButton />
-        </>
-      )}
+        location.pathname === "/profile") &&
+        !isMobile && (
+          <>
+            <div className="navigation">
+              <NavLink
+                to="/movies"
+                activeClassName="navigation__link_active"
+                className="navigation__link_movie"
+              >
+                Фильмы
+              </NavLink>
+              <NavLink
+                to="/saved-movies"
+                activeClassName="navigation__link_active"
+                className="navigation__link_movie "
+              >
+                Сохранённые фильмы
+              </NavLink>
+            </div>
+            <AccountButton />
+          </>
+        )}
       {(location.pathname === "/movies" ||
         location.pathname === "/saved-movies" ||
         location.pathname === "/profile") &&

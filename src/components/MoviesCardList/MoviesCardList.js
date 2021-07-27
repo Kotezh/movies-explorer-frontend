@@ -1,7 +1,7 @@
-import React from 'react';
-import './MoviesCardList.css';
-import {movieList} from '../../utils/test-db';
-import MoviesCard from '../MoviesCard/MoviesCard';
+import React from "react";
+import "./MoviesCardList.css";
+import { movieList } from "../../utils/test-db";
+import MoviesCard from "../MoviesCard/MoviesCard";
 
 export default function MoviesCardList({ onClick, onDelete }) {
   return (
@@ -18,5 +18,5 @@ export default function MoviesCardList({ onClick, onDelete }) {
       </div>
       <button className="movies-section__btn-more">Ещё</button>
     </section>
-    )
-};
+  );
+}

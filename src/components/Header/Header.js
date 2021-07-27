@@ -12,9 +12,7 @@ export default function Header() {
     "/saved-movies",
     "/profile",
   ].includes(location.pathname);
-  // const isPageWithNav = ["/", "/movies", "/saved-movies", "/profile"].includes(
-  //   location.pathname
-  // );
+
   return (
     <>
       {isPageWithHeader ? (

@@ -39,7 +39,7 @@ export default function Login() {
             <label className="signin__form-label">E-mail</label>
             <input
               name="email"
-              // placeholder="Email"
+              placeholder="Введите Email"
               id="email"
               type="email"
               className="signin__input"
@@ -58,7 +58,7 @@ export default function Login() {
             <label className="signin__form-label">Пароль</label>
             <input
               name="password"
-              // placeholder=""
+              placeholder="Введите пароль"
               id="password"
               type="password"
               className="signin__input"

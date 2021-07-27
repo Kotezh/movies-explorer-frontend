@@ -1,4 +1,4 @@
-.filter__checkbox-label{
+.filter__checkbox-label {
   display: flex;
   align-items: center;
   margin: 0;
@@ -17,7 +17,7 @@
   font-weight: 400;
   font-size: 13px;
   line-height: 1.38;
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
 .filter__pseudo-item {
