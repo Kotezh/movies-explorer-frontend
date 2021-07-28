@@ -1,0 +1,104 @@
+.card {
+  background-color: #222222;
+  background-size: cover;
+  border-radius: 10px;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  width: 100%;
+  justify-self: center;
+}
+
+.card__title {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  margin: 0 0 10px;
+  padding: 0;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 16px;
+}
+
+.card__duration {
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 13px;
+  color: #8b8b8b;
+  margin: 0;
+  padding: 0;
+}
+
+.card__image {
+  background-color: #222222;
+  background-size: cover;
+  background-position: center;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 68%;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.card__caption-wrapper {
+  margin: 0;
+  padding: 12px 12px;
+  background-color: #222222;
+  background-size: cover;
+  position: relative;
+}
+
+.card__checkbox-label {
+  position: absolute;
+  top: 14px;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+.card__checkbox {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  margin: 0;
+  padding: 0;
+}
+
+.card__pseudo-item {
+  display: inline-block;
+  vertical-align: middle;
+  width: 16px;
+  height: 16px;
+  border: none;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin: 0;
+  padding: 0;
+}
+
+.card__pseudo-item_unchecked {
+  background-image: url(../../images/saved-off.svg);
+}
+
+.card__pseudo-item_checked {
+  background-image: url(../../images/saved-on.svg);
+}
+
+.card__pseudo-item_delete {
+  background-image: url(../../images/delete-icon.svg);
+}
+
+.card__checkbox:hover + .card__pseudo-item {
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+.card:hover {
+  opacity: 0.8;
+  box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.15);
+}

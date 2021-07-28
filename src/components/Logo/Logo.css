@@ -1,0 +1,25 @@
+.logo {
+  margin: 0 62px 0 0;
+  padding: 0;
+  text-decoration: none;
+  font-size: 0;
+}
+
+.logo__image {
+  width: 38px;
+  height: 38px;
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
+  transition: box-shadow 0.2s linear 0s;
+}
+
+.logo__image:hover {
+  opacity: 0.7;
+}
+
+@media screen and (max-width: 400px) {
+  .logo {
+    margin: 0;
+  }
+}
