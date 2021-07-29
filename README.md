@@ -22,7 +22,7 @@
 
 * Клонировать репозиторий
 
-  `git clone https://github.com/kateworks/movies-explorer-frontend.git`
+  `git clone https://github.com/Kotezh/movies-explorer-frontend.git`
 
 * Установить зависимости
 
