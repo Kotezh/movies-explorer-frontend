@@ -1,35 +1,41 @@
-import React, { useState } from "react";
+import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import { useMediaQuery } from "react-responsive";
+// import { useMediaQuery } from "react-responsive";
 import "./Navigation.css";
 import AccountButton from "../AccountButton/AccountButton";
 import BurgerMenu from "../BurgerMenu/BurgerMenu";
-import { ESC_KEYCODE } from "../../utils/constants";
 
-export default function Navigation() {
-  const [isOpen, setIsOpen] = useState(false);
+export default function Navigation({
+  onClose,
+  isOpen,
+  onBurgerClick,
+  isTablet,
+  isMobile,
+  loggedIn,
+}) {
+  // const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
-  const isMobile = useMediaQuery({ maxWidth: 768 });
+  // const isMobile = useMediaQuery({ maxWidth: 768 });
 
-  function handleEscClose(evt) {
-    const key = evt.keyCode;
-    if (key === ESC_KEYCODE) {
-      closeAllPopups();
-    }
-  }
-  function handleBurgerClick() {
-    setIsOpen(true);
-    document.addEventListener("keydown", handleEscClose);
-  }
+  // function handleEscClose(evt) {
+  //   const key = evt.keyCode;
+  //   if (key === ESC_KEYCODE) {
+  //     closeAllPopups();
+  //   }
+  // }
+  // function handleBurgerClick() {
+  //   setIsOpen(true);
+  //   document.addEventListener("keydown", handleEscClose);
+  // }
 
-  function closeAllPopups() {
-    setIsOpen(false);
-    document.removeEventListener("keydown", handleEscClose);
-  }
+  // function closeAllPopups() {
+  //   setIsOpen(false);
+  //   document.removeEventListener("keydown", handleEscClose);
+  // }
 
   return (
     <>
-      {location.pathname === "/" && (
+      {location.pathname === "/" && !loggedIn && (
         <div className="navigation">
           <NavLink to="/signup" className="navigation__link">
             Регистрация
@@ -42,10 +48,13 @@ export default function Navigation() {
           </NavLink>
         </div>
       )}
-      {(location.pathname === "/movies" ||
+      {(location.pathname === "/" ||
+        location.pathname === "/movies" ||
         location.pathname === "/saved-movies" ||
         location.pathname === "/profile") &&
-        !isMobile && (
+        !isTablet &&
+        !isMobile &&
+        loggedIn && (
           <>
             <div className="navigation">
               <NavLink
@@ -66,18 +75,20 @@ export default function Navigation() {
             <AccountButton />
           </>
         )}
-      {(location.pathname === "/movies" ||
+      {(location.pathname === "/" ||
+        location.pathname === "/movies" ||
         location.pathname === "/saved-movies" ||
         location.pathname === "/profile") &&
-        isMobile && (
+        (isTablet || isMobile) &&
+        loggedIn && (
           <button
             className="navigation__burger-button"
             type="button"
             aria-label="Open"
-            onClick={handleBurgerClick}
+            onClick={onBurgerClick}
           ></button>
         )}
-      <BurgerMenu isOpen={isOpen} onClose={closeAllPopups} />
+      <BurgerMenu isOpen={isOpen} onClose={onClose} />
     </>
   );
 }

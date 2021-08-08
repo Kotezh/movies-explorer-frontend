@@ -1,29 +1,25 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Register.css";
-import { REQUEST_ERROR_TEXT } from "../../utils/constants";
+import { validatorConfig, PATTERN_EMAIL_ERROR_TEXT, PATTERN_NAME_ERROR_TEXT, PATTERN_PASSWORD_ERROR_TEXT } from "../../utils/constants";
+import useValidate from "../../utils/useValidate";
 import Logo from "../Logo/Logo";
 
-export default function Register() {
-  const [userName, setUserName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isError, setIsError] = useState(false);
+export default function Register({ apiErrorText, onRegister, isError }) {
+  const [values, setValues] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+  const isValid = useValidate(values);
 
-  function handleChange(e) {
-    e.preventDefault();
-    if (e.target.name === "user-name") {
-      setUserName(e.target.value);
-    } else if (e.target.name === "email") {
-      setEmail(e.target.value);
-    } else if (e.target.name === "password") {
-      setPassword(e.target.value);
-    }
+  function handleChangeInput(e) {
+    setValues({ ...values, [e.target.name]: e.target.value });
   }
 
   function handleSubmit(e) {
     e.preventDefault();
-    setIsError(true);
+    onRegister(values.name, values.email, values.password);
   }
 
   return (
@@ -42,21 +38,21 @@ export default function Register() {
           <fieldset className="signup__form-fieldset">
             <label className="signup__form-label">Имя</label>
             <input
-              name="user-name"
+              name="name"
               placeholder="Введите имя"
-              id="user-name"
+              id="name"
               type="text"
               className="signup__input"
-              value={userName}
-              onChange={handleChange}
+              value={values?.name}
+              onChange={handleChangeInput}
               required
-              minLength="2"
-              maxLength="40"
-              pattern="^[a-zA-Zа-яёА-ЯЁ0-9]{2,29}$"
+              minLength={validatorConfig.name.minLength}
+              maxLength={validatorConfig.name.maxLength}
+              pattern={validatorConfig.name.pattern}
               autoComplete="off"
             />
-            <span className="signup__input-error" id="user-name-error">
-              Некорректный формат имени
+            <span className="signup__input-error" id="name-error">
+             {PATTERN_NAME_ERROR_TEXT}
             </span>
 
             <label className="signup__form-label">E-mail</label>
@@ -66,16 +62,16 @@ export default function Register() {
               id="email"
               type="email"
               className="signup__input"
-              value={email}
-              onChange={handleChange}
+              value={values?.email}
+              onChange={handleChangeInput}
               required
-              minLength="2"
-              maxLength="40"
-              pattern="^(\w+([-.]\w+)*@\w+(\.\w{2,})+)$"
+              minLength={validatorConfig.email.minLength}
+              maxLength={validatorConfig.email.maxLength}
+              pattern={validatorConfig.email.pattern}
               autoComplete="off"
             />
             <span className="signup__input-error" id="email-error">
-              Некорректный формат email
+              {PATTERN_EMAIL_ERROR_TEXT}
             </span>
 
             <label className="signup__form-label">Пароль</label>
@@ -85,16 +81,16 @@ export default function Register() {
               id="password"
               type="password"
               className="signup__input"
-              value={password}
-              onChange={handleChange}
+              value={values?.password}
+              onChange={handleChangeInput}
               required
-              minLength="8"
-              maxLength="200"
-              pattern="[a-zA-Z0-9]{8,}"
+              minLength={validatorConfig.password.minLength}
+              maxLength={validatorConfig.password.maxLength}
+              pattern={validatorConfig.password.pattern}
               autoComplete="off"
             />
             <span className="signup__input-error" id="password-error">
-              Строчные и прописные латинские буквы, цифры. Минимум 8 символов
+             {PATTERN_PASSWORD_ERROR_TEXT}
             </span>
           </fieldset>
 
@@ -102,14 +98,17 @@ export default function Register() {
             className={`signup__error ${isError && "signup__error_visible"}`}
             id="signup-error"
           >
-            {REQUEST_ERROR_TEXT}
+            {apiErrorText}
           </span>
 
           <button
             name="submit"
             type="submit"
-            className="signup__btn signup__btn_type_submit"
+            className={`signup__btn signup__btn_type_submit ${
+              !isValid && "signup__btn_type_disabled"
+            }`}
             value="Зарегистрироваться"
+            disabled={!isValid}
           >
             Зарегистрироваться
           </button>

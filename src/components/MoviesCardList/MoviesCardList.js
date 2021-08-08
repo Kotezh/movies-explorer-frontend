@@ -1,22 +1,119 @@
-import React from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import "./MoviesCardList.css";
-import { movieList } from "../../utils/test-db";
 import MoviesCard from "../MoviesCard/MoviesCard";
+import {
+  DESKTOP_ROW_AMOUNT,
+  DESKTOP_CARDS_AMOUNT,
+  TABLET_ROW_AMOUNT,
+  TABLET_CARDS_AMOUNT,
+  MOBILE_CARDS_AMOUNT,
+  NOT_FOUND_ERROR_TEXT,
+  ANY_ERROR_TEXT
+} from "../../utils/constants";
+import { useLocation } from "react-router-dom";
 
-export default function MoviesCardList({ onClick, onDelete }) {
+export default function MoviesCardList({
+  searchedMovies,
+  onMovieSave,
+  onMovieDelete,
+  savedMovies,
+  isNoData,
+  isMobile,
+  isTablet,
+  isError
+}) {
+  const location = useLocation();
+  const [movies, setMovies] = useState(searchedMovies);
+
+  // ===============================================================
+  const rowAmount = () => {
+    if (isMobile) {
+      return TABLET_ROW_AMOUNT
+    } else if (isTablet) {
+      return TABLET_ROW_AMOUNT;
+    } else {
+      return DESKTOP_ROW_AMOUNT;
+    }
+  };
+
+  const cardsAmount = () => {
+    if (isMobile) {
+      return MOBILE_CARDS_AMOUNT;
+    } else if (isTablet) {
+      return TABLET_CARDS_AMOUNT;
+    } else {
+      return DESKTOP_CARDS_AMOUNT;
+    }
+  };
+
+  const resize = () => {
+    setMoviesAmountRow(rowAmount());
+  }
+
+  const [moviesAmountRow, setMoviesAmountRow] = useState(rowAmount());
+  const [moviesAmount, setMoviesAmount] = useState(cardsAmount());
+
+  const resetResizeTimer = () => {
+    let resizeTimer = false;
+
+    const setResizeTimer = () => {
+      if (resizeTimer) clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(resize, 1500);
+    }
+
+    return setResizeTimer;
+  }
+
+  window.addEventListener('resize', resetResizeTimer());
+  // ===============================================================
+
+  useEffect(() => {
+    console.log(savedMovies);
+    console.log(searchedMovies)
+    if (location.pathname === "/movies") {
+      setMovies(searchedMovies.map((m) => {
+        const movie = { ...m };
+        movie.isSaved = savedMovies.map((s) => s.movieId).includes(m.id);
+        movie._id = savedMovies.find((s) => s.movieId === m.id)?._id;
+        return movie;
+      }))
+    }
+    if (location.pathname === "/saved-movies") {
+      setMovies(searchedMovies);
+    }
+  }, [location.pathname, searchedMovies, savedMovies]);
+
+  function handleClickMore() {
+    const moviesCount = moviesAmount;
+    setMoviesAmount(moviesCount + moviesAmountRow);
+  }
+
   return (
     <section className="movies-section">
       <div className="movies-section__list">
-        {movieList.map((movie) => (
-          <MoviesCard
-            key={movie.movieId}
-            movie={movie}
-            onClick={onClick}
-            onDelete={onDelete}
-          />
+        {isError ? (
+          <span className="movies-section__error">{ANY_ERROR_TEXT}</span>
+
+        ) : (isNoData ? (
+          <span className="movies-section__no-data">{NOT_FOUND_ERROR_TEXT}</span>
+        ) : (
+          movies
+            .filter((movie, index) => index < moviesAmount)
+            .map((movie) => (
+              <MoviesCard
+                key={movie.id || movie.movieId}
+                movie={movie}
+                onMovieSave={onMovieSave}
+                onMovieDelete={onMovieDelete}
+              />
+            ))
         ))}
       </div>
-      <button className="movies-section__btn-more">Ещё</button>
+      {movies?.length > moviesAmount && !isError && (
+        <button onClick={handleClickMore} className="movies-section__btn-more">
+          Ещё
+        </button>
+      )}
     </section>
   );
 }

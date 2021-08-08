@@ -1,55 +1,65 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import "./Profile.css";
-import { REQUEST_ERROR_TEXT } from "../../utils/constants";
-import { useHistory } from "react-router-dom";
+import { validatorConfig, PATTERN_NAME_ERROR_TEXT } from "../../utils/constants";
+import useValidate from "../../utils/useValidate";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
-export default function Profile() {
-  const email = "test@email.ru";
-  const [userName, setUserName] = useState("Надежда");
-  const [isError, setIsError] = useState(false);
-  const history = useHistory();
+export default function Profile({ onSignOut, onUpdateUser, apiErrorText, isError }) {
+  const currentUser = useContext(CurrentUserContext);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [name, setName] = useState(currentUser.name);
+  const [baseUserName, setBaseUserName] = useState(currentUser.name);
+  const email = currentUser.email;
 
-  function handleChange(e) {
-    e.preventDefault();
-    setUserName(e.target.value);
+  const isValid = useValidate({ name: name });
+
+  useEffect(() => {
+    setIsButtonDisabled(name === baseUserName);
+  }, [name, baseUserName]);
+
+  useEffect(() => {
+    setName(currentUser.name);
+    setBaseUserName(currentUser.name);
+  }, [currentUser.name]);
+
+  function handleChangeInput(e) {
+    setName(e.target.value );
   }
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    setIsError(true);
-  }
-
-  function handleTest(e) {
-    e.preventDefault();
-    history.push('/');
+  function handleUpdateUser(evt) {
+    evt.preventDefault();
+    onUpdateUser(name, email);
   }
 
   return (
     <main className="profile">
       <section className="profile__section">
-        <h2 className="profile__title">Привет, {userName}!</h2>
+        <h2 className="profile__title">Привет, {baseUserName}!</h2>
         <form
           noValidate
-          onSubmit={handleSubmit}
+          onSubmit={handleUpdateUser}
           className="profile__form"
           name="profile-form"
         >
           <label className="profile__form-label">
             Имя
             <input
-              name="user-name"
+              name="name"
               placeholder="Введите имя"
-              id="user-name"
+              id="name"
               type="text"
               className="profile__input"
-              value={userName}
-              onChange={handleChange}
+              value={name}
+              onChange={handleChangeInput}
               required
-              minLength="2"
-              maxLength="200"
-              pattern="^[a-zA-Zа-яёА-ЯЁ0-9]{2,29}$"
+              minLength={validatorConfig.name.minLength}
+              maxLength={validatorConfig.name.maxLength}
+              pattern={validatorConfig.name.pattern}
             />
           </label>
+          <span className={`profile__input-error ${!isValid && "profile__input-error_visible"}`} id="name-error">
+              {PATTERN_NAME_ERROR_TEXT}
+            </span>
           <label className="profile__form-label">
             E-mail
             <input
@@ -59,7 +69,7 @@ export default function Profile() {
               type="email"
               className="profile__input"
               value={email}
-              onChange={handleChange}
+              onChange={handleChangeInput}
               required
               disabled={true}
               minLength="2"
@@ -68,16 +78,19 @@ export default function Profile() {
             />
           </label>
           <span
-            className={`profile__error ${isError && "profile__error_visible"}`}
+            className={`profile__error ${isError && "profile__error_visible"
+              }`}
             id="profile-error"
           >
-            {REQUEST_ERROR_TEXT}
+            {apiErrorText}
           </span>
           <button
-            name="submit"
+            name="edit"
             type="submit"
-            className="profile__btn profile__btn_type_submit"
+            className={`profile__btn profile__btn_type_submit ${(!isValid || isButtonDisabled) && "profile__btn_type_disabled"
+              }`}
             value="Редактировать"
+            disabled={!isValid || isButtonDisabled}
           >
             Редактировать
           </button>
@@ -87,7 +100,7 @@ export default function Profile() {
           type="submit"
           className="profile__btn profile__btn_type_logout"
           value="Выйти из аккаунта"
-          onClick={handleTest}
+          onClick={onSignOut}
         >
           Выйти из аккаунта
         </button>
