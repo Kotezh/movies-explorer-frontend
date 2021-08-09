@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import './SavedMovies.css';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Preloader from '../Preloader/Preloader';
-import { useHistory, useLocation } from 'react-router-dom';
+import { SHORTS_DURATION } from '../../utils/constants';
 
 export default function SavedMovies({
   isError,
@@ -69,7 +70,7 @@ export default function SavedMovies({
               m.nameRU?.toLowerCase().includes(search.toLowerCase()) ||
               m.nameEN?.toLowerCase().includes(search.toLowerCase())
           )
-          .filter((m) => (m.duration <= 40 ? true : !isShortFilm))
+          .filter((m) => (m.duration <= SHORTS_DURATION ? true : !isShortFilm))
       );
     }
     setIsLoading(false);
