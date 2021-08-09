@@ -42,6 +42,7 @@
   padding: 0;
   display: flex;
   width: 100%;
+  position: relative;
 }
 
 .search__icon {
@@ -56,9 +57,10 @@
   outline: none;
   background-color: #222222;
   caret-color: #ffffff;
+  color: #ffffff;
   margin: 0;
   padding: 0 10px;
-  font-family: "Inter", "Arial", sans-serif;
+  font-family: 'Inter', 'Arial', sans-serif;
   font-weight: 400;
   font-size: 18px;
   line-height: 1.11;
@@ -71,7 +73,7 @@
 }
 
 .search__input::placeholder {
-  font-family: "Inter", "Arial", sans-serif;
+  font-family: 'Inter', 'Arial', sans-serif;
   font-weight: 400;
   font-size: 18px;
   line-height: 1.11;
@@ -81,6 +83,24 @@
 .search__input:focus::placeholder {
   opacity: 0;
   transition: opacity 0.3s ease;
+}
+
+.search__error {
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 13px;
+  text-align: center;
+  color: #ee3465;
+  margin: auto 0 0;
+  padding: 0;
+  opacity: 0;
+  position: absolute;
+  bottom: -23px;
+  left: 0;
+}
+
+.search__error_visible {
+  opacity: 1;
 }
 
 .search__button {

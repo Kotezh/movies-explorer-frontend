@@ -34,6 +34,7 @@
   padding: 0;
   text-decoration: none;
   display: block;
+  cursor: pointer;
 }
 
 .not-found-page__link:hover {

@@ -1,45 +1,72 @@
-import React, { useState } from "react";
-import "./SearchForm.css";
-import searchIcon from "../../images/search-icon.svg";
-import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
+import React, { useState } from 'react';
+import './SearchForm.css';
+import searchIcon from '../../images/search-icon.svg';
+import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
+import { KEYWORD_ERROR_TEXT } from '../../utils/constants';
 
-export default function SearchForm({ onSearch }) {
-  const [value, setValue] = useState("");
+export default function SearchForm({
+  hasMovies,
+  onSearchSubmit,
+  isSearchError,
+}) {
+  const [searchValue, setSearchValue] = useState(
+    localStorage.getItem('search') || ''
+  );
+  const [isShortFilm, setIsShortFilm] = useState(
+    localStorage.getItem('isShortFilm') === 'true' || ''
+  );
 
-  function handleChange(e) {
-    setValue(e.target.value);
+  function handleSearchChange(evt) {
+    setSearchValue(evt.target.value);
   }
-  function handleSubmit(evt) {
+
+  function handleSearchSubmit(evt) {
     evt.preventDefault();
-    onSearch();
+    onSearchSubmit(searchValue, isShortFilm);
   }
+
+  function handleFilterShorts() {
+    setIsShortFilm(!isShortFilm);
+    if (hasMovies || (!hasMovies && isShortFilm)) {
+      onSearchSubmit(searchValue, !isShortFilm);
+    }
+  }
+
   return (
-    <div className="search">
-      <div className="search__wrapper">
-        <form className="search__form" onSubmit={handleSubmit}>
-          <fieldset className="search__fieldset">
-            <label htmlFor="search" className="search__input-label">
-              <img src={searchIcon} alt="иконка" className="search__icon" />
+    <div className='search'>
+      <div className='search__wrapper'>
+        <form className='search__form' onSubmit={handleSearchSubmit} noValidate>
+          <fieldset className='search__fieldset'>
+            <img src={searchIcon} alt='иконка' className='search__icon' />
+            <label htmlFor='search' className='search__input-label'>
               <input
-                id="search"
-                type="text"
-                name="search"
-                value={value}
-                onChange={handleChange}
-                minLength="2"
-                maxLength="30"
-                className="search__input"
-                pattern="^[a-zA-Zа-яёА-ЯЁ0-9]{3,29}$"
-                placeholder="Фильм"
+                id='search'
+                type='text'
+                name='search'
+                value={searchValue}
+                onChange={handleSearchChange}
+                minLength='1'
+                maxLength='300'
+                className='search__input'
+                pattern='^.+$'
+                placeholder='Фильм'
                 required
               />
+              <span
+                className={`search__error ${
+                  isSearchError && 'search__error_visible'
+                }`}
+                id='search-error'
+              >
+                {KEYWORD_ERROR_TEXT}
+              </span>
             </label>
-            <button className="search__button" type="submit">
+            <button className='search__button' type='submit'>
               Найти
             </button>
           </fieldset>
-          <div className="search__vertical-line"></div>
-          <FilterCheckbox />
+          <div className='search__vertical-line'></div>
+          <FilterCheckbox onFilterShorts={handleFilterShorts} />
         </form>
       </div>
     </div>
