@@ -276,9 +276,7 @@ export default function App() {
       .then((res) => {
         if (res.logout === 'ok') {
           setLoggedIn(false);
-          localStorage.removeItem('isLoggedIn');
-          localStorage.removeItem('movies');
-          localStorage.removeItem('savedMovies');
+          localStorage.clear();
           setMovies([]);
           setSavedMovies([]);
           history.push('/');
