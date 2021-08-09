@@ -1,5 +1,5 @@
-import { NavLink } from 'react-router-dom';
 import React from 'react';
+import { NavLink, useLocation } from 'react-router-dom';
 import './BurgerMenu.css';
 import AccountButton from '../AccountButton/AccountButton';
 
@@ -10,6 +10,8 @@ export default function BurgerMenu({ onClose, isOpen }) {
       onClose();
     }
   }
+  const location = useLocation();
+
   return (
     <section
       className={`burger-menu ${openedClass}`}
@@ -25,7 +27,10 @@ export default function BurgerMenu({ onClose, isOpen }) {
         <div className='burger-menu__links'>
           <NavLink
             exact
-            to='/'
+            to={{
+              pathname: '/',
+              state: { from: location.pathname },
+            }}
             onClick={onClose}
             activeClassName='burger-menu__link_active'
             className='burger-menu__link'
@@ -33,7 +38,7 @@ export default function BurgerMenu({ onClose, isOpen }) {
             Главная
           </NavLink>
           <NavLink
-            to='/movies'
+            to={{ pathname: '/movies', state: { from: location.pathname } }}
             onClick={onClose}
             activeClassName='burger-menu__link_active'
             className='burger-menu__link'
@@ -41,7 +46,10 @@ export default function BurgerMenu({ onClose, isOpen }) {
             Фильмы
           </NavLink>
           <NavLink
-            to='/saved-movies'
+            to={{
+              pathname: '/saved-movies',
+              state: { from: location.pathname },
+            }}
             onClick={onClose}
             activeClassName='burger-menu__link_active'
             className='burger-menu__link '

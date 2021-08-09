@@ -39,14 +39,17 @@ export default function Navigation({
           <>
             <div className='navigation'>
               <NavLink
-                to='/movies'
+                to={{ pathname: '/movies', state: { from: location.pathname } }}
                 activeClassName='navigation__link_active'
                 className='navigation__link_movie'
               >
                 Фильмы
               </NavLink>
               <NavLink
-                to='/saved-movies'
+                to={{
+                  pathname: '/saved-movies',
+                  state: { from: location.pathname },
+                }}
                 activeClassName='navigation__link_active'
                 className='navigation__link_movie '
               >

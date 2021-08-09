@@ -9,8 +9,12 @@ export default function SearchForm({
   onSearchSubmit,
   isSearchError,
 }) {
-  const [searchValue, setSearchValue] = useState('');
-  const [isShortFilm, setIsShortFilm] = useState(false);
+  const [searchValue, setSearchValue] = useState(
+    localStorage.getItem('search') || ''
+  );
+  const [isShortFilm, setIsShortFilm] = useState(
+    localStorage.getItem('isShortFilm') === 'true' || ''
+  );
 
   function handleSearchChange(evt) {
     setSearchValue(evt.target.value);

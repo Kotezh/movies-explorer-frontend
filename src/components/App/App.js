@@ -21,14 +21,27 @@ import * as auth from '../../utils/auth';
 import { useMediaQuery } from 'react-responsive';
 
 export default function App() {
-  const [currentUser, setCurrentUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState({
+    name: '',
+    email: '',
+  });
   const [isError, setIsError] = useState(false);
   const [apiErrorText, setApiErrorText] = useState('');
-  const [movies, setMovies] = useState([]);
-  const [savedMovies, setSavedMovies] = useState([]);
+  const [movies, setMovies] = useState(
+    localStorage.getItem('movies')
+      ? JSON.parse(localStorage.getItem('movies'))
+      : []
+  );
+  const [savedMovies, setSavedMovies] = useState(
+    localStorage.getItem('savedMovies')
+      ? JSON.parse(localStorage.getItem('savedMovies'))
+      : []
+  );
   const [isLoading, setIsLoading] = useState(false);
   const [isBurgerOpen, setIsBurgerOpen] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(
+    !!localStorage.getItem('isLoggedIn') || false
+  );
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const history = useHistory();
@@ -39,7 +52,17 @@ export default function App() {
   useEffect(() => {
     setIsError(false);
     setIsLoading(false);
-  }, [location]);
+    const locationFrom = history.location.state?.from || '';
+    if (
+      (location === '/movies' &&
+        ['/saved-movies', '/profile'].includes(locationFrom)) ||
+      (location === '/saved-movies' &&
+        ['/movies', '/profile'].includes(locationFrom))
+    ) {
+      localStorage.removeItem('search');
+      localStorage.removeItem('isShortFilm');
+    }
+  }, [location, history]);
 
   useEffect(() => {
     auth
@@ -47,11 +70,12 @@ export default function App() {
       .then((user) => {
         setCurrentUser(user.data);
         setLoggedIn(true);
-        history.push('/movies');
       })
       .catch((err) => {
         console.log(err);
         setIsError(true);
+        localStorage.removeItem('isLoggedIn');
+        setLoggedIn(false);
       });
   }, [history]);
 
@@ -61,6 +85,7 @@ export default function App() {
       .getMovies()
       .then((moviesLoaded) => {
         setMovies(moviesLoaded);
+        localStorage.setItem('movies', JSON.stringify(moviesLoaded));
       })
       .catch(() => {
         setIsError(true);
@@ -78,6 +103,12 @@ export default function App() {
         setSavedMovies(
           userMovies.data.filter((s) => s.owner === currentUser._id)
         );
+        localStorage.setItem(
+          'savedMovies',
+          JSON.stringify(
+            userMovies.data.filter((s) => s.owner === currentUser._id)
+          )
+        );
       })
       .catch(() => {
         setIsError(true);
@@ -94,7 +125,7 @@ export default function App() {
       .then((user) => {
         setCurrentUser(user.data);
         setLoggedIn(true);
-        history.push('/movies');
+        !localStorage.getItem('isLoggedIn') && history.push('/movies');
       })
       .catch(() => {
         setIsError(true);
@@ -109,6 +140,10 @@ export default function App() {
       .saveMovie(movie)
       .then((addedMovie) => {
         setIsError(false);
+        localStorage.setItem(
+          'savedMovies',
+          JSON.stringify([...savedMovies, addedMovie.data])
+        );
         setSavedMovies([...savedMovies, addedMovie.data]);
       })
       .catch((err) => {
@@ -123,6 +158,10 @@ export default function App() {
       .deleteMovie(userMovie._id)
       .then(() => {
         setIsError(false);
+        localStorage.setItem(
+          'savedMovies',
+          JSON.stringify(savedMovies.filter((m) => m.movieId !== id))
+        );
         setSavedMovies(savedMovies.filter((m) => m.movieId !== id));
       })
       .catch((err) => {
@@ -210,6 +249,7 @@ export default function App() {
         if (data.token === 'ok') {
           getUserInfo();
           setLoggedIn(true);
+          localStorage.setItem('isLoggedIn', 'true');
           setCurrentUser({ email: email });
           setIsError(false);
           setApiErrorText('');
@@ -236,6 +276,9 @@ export default function App() {
       .then((res) => {
         if (res.logout === 'ok') {
           setLoggedIn(false);
+          localStorage.removeItem('isLoggedIn');
+          localStorage.removeItem('movies');
+          localStorage.removeItem('savedMovies');
           setMovies([]);
           setSavedMovies([]);
           history.push('/');

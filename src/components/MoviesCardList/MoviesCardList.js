@@ -37,7 +37,7 @@ export default function MoviesCardList({
     } else {
       return DESKTOP_ROW_AMOUNT;
     }
-  };
+  }
 
   function cardsAmount() {
     if (isMobile) {
@@ -47,35 +47,34 @@ export default function MoviesCardList({
     } else {
       return DESKTOP_CARDS_AMOUNT;
     }
-  };
+  }
 
   function resize() {
     setMoviesAmountRow(rowAmount());
-  };
+  }
 
-  function resetResizeTimer () {
+  function resetResizeTimer() {
     let resizeTimer = false;
 
-    function setResizeTimer () {
+    function setResizeTimer() {
       if (resizeTimer) clearTimeout(resizeTimer);
       resizeTimer = setTimeout(resize, 1500);
-    };
+    }
     return setResizeTimer;
-  };
+  }
 
   window.addEventListener('resize', resetResizeTimer());
   // ===============================================================
 
   useEffect(() => {
     if (location.pathname === '/movies') {
-      setMovies(
-        searchedMovies.map((m) => {
-          const movie = { ...m };
-          movie.isSaved = savedMovies.map((s) => s.movieId).includes(m.id);
-          movie._id = savedMovies.find((s) => s.movieId === m.id)?._id;
-          return movie;
-        })
-      );
+      const newMovies = searchedMovies.map((m) => {
+        const movie = { ...m };
+        movie.isSaved = savedMovies.map((s) => s.movieId).includes(m.id);
+        movie._id = savedMovies.find((s) => s.movieId === m.id)?._id;
+        return movie;
+      });
+      setMovies(newMovies);
     }
     if (location.pathname === '/saved-movies') {
       setMovies(searchedMovies);
@@ -109,11 +108,16 @@ export default function MoviesCardList({
             ))
         )}
       </div>
-      {movies?.length > moviesAmount && !isError && location.pathname === '/movies' && (
-        <button onClick={handleClickMore} className='movies-section__btn-more'>
-          Ещё
-        </button>
-      )}
+      {movies?.length > moviesAmount &&
+        !isError &&
+        location.pathname === '/movies' && (
+          <button
+            onClick={handleClickMore}
+            className='movies-section__btn-more'
+          >
+            Ещё
+          </button>
+        )}
     </section>
   );
 }

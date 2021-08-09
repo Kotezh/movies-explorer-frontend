@@ -3,6 +3,8 @@ import './Movies.css';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Preloader from '../Preloader/Preloader';
+import { SHORTS_DURATION } from '../../utils/constants';
+import { useHistory, useLocation } from 'react-router-dom';
 
 export default function Movies({
   isError,
@@ -21,6 +23,27 @@ export default function Movies({
   const [searchedMovies, setSearchedMovies] = useState([]);
   const [isNoData, setIsNoData] = useState(false);
   const [isSearchError, setIsSearchError] = useState(false);
+  const history = useHistory();
+  const location = useLocation().pathname;
+
+  useEffect(() => {
+    const locationFrom = history.location.state?.from || '';
+    if (
+      (location === '/movies' &&
+        ['/saved-movies', '/profile'].includes(locationFrom)) ||
+      (location === '/saved-movies' &&
+        ['/movies', '/profile'].includes(locationFrom))
+    ) {
+    } else {
+      const searchValue = localStorage.getItem('search');
+      const shortsCheckboxValue =
+        localStorage.getItem('isShortFilm') === 'true';
+      if (!!searchValue || shortsCheckboxValue) {
+        setSearch(searchValue);
+        setIsShortFilm(shortsCheckboxValue);
+      }
+    }
+  }, [location, history]);
 
   function handleSearchClick(searchValue, shortsCheckboxValue) {
     setIsSearchError(false);
@@ -32,6 +55,11 @@ export default function Movies({
       !movies.length && getSavedMovies();
       setSearch(searchValue);
       setIsShortFilm(shortsCheckboxValue);
+      localStorage.setItem('search', searchValue);
+      localStorage.setItem(
+        'isShortFilm',
+        shortsCheckboxValue ? 'true' : 'false'
+      );
     }
   }
 
@@ -45,7 +73,7 @@ export default function Movies({
               m.nameRU?.toLowerCase().includes(search.toLowerCase()) ||
               m.nameEN?.toLowerCase().includes(search.toLowerCase())
           )
-          .filter((m) => (m.duration <= 40 ? true : !isShortFilm))
+          .filter((m) => (m.duration <= SHORTS_DURATION ? true : !isShortFilm))
       );
     }
     setIsLoading(false);
