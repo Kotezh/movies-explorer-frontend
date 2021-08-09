@@ -33,7 +33,7 @@ export const validatorConfig = {
   name: {
     minLength: 2,
     maxLength: 40,
-    pattern: '^[a-zA-Zа-яёА-ЯЁ0-9]{2,29}$',
+    pattern: '^[a-zA-Zа-яёА-ЯЁ0-9 -]{2,29}$',
   },
   email: {
     minLength: 2,
