@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import "./Movies.css";
-import SearchForm from "../SearchForm/SearchForm";
-import MoviesCardList from "../MoviesCardList/MoviesCardList";
-import Preloader from "../Preloader/Preloader";
+import React, { useEffect, useState } from 'react';
+import './Movies.css';
+import SearchForm from '../SearchForm/SearchForm';
+import MoviesCardList from '../MoviesCardList/MoviesCardList';
+import Preloader from '../Preloader/Preloader';
 
 export default function Movies({
   isError,
@@ -15,7 +15,7 @@ export default function Movies({
   getAllMovies,
   getSavedMovies,
 }) {
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
   const [isShortFilm, setIsShortFilm] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [searchedMovies, setSearchedMovies] = useState([]);
@@ -27,7 +27,7 @@ export default function Movies({
     if (!searchValue) {
       setIsSearchError(true);
     } else {
-      console.log(searchValue, shortsCheckboxValue)
+      console.log(searchValue, shortsCheckboxValue);
       setIsLoading(true);
       !movies.length && getAllMovies();
       !movies.length && getSavedMovies();
@@ -53,17 +53,22 @@ export default function Movies({
   }, [movies, search, isShortFilm, isLoading]);
 
   useEffect(() => {
-    if(!isError){
-    if (!searchedMovies.length && (search || isShortFilm)) {
-      setIsNoData(true);
-    } else {
-      setIsNoData(false);
-    }}
+    if (!isError) {
+      if (!searchedMovies.length && (search || isShortFilm)) {
+        setIsNoData(true);
+      } else {
+        setIsNoData(false);
+      }
+    }
   }, [searchedMovies, search, isShortFilm, isError]);
 
   return (
-    <div className="movies-page">
-      <SearchForm hasMovies={!!searchedMovies.length} isSearchError={isSearchError} onSearchSubmit={handleSearchClick} />
+    <div className='movies-page'>
+      <SearchForm
+        hasMovies={!!searchedMovies.length}
+        isSearchError={isSearchError}
+        onSearchSubmit={handleSearchClick}
+      />
       {isLoading ? (
         <Preloader />
       ) : (

@@ -1,11 +1,11 @@
 .profile {
-  font-family: "Inter", "Arial", sans-serif;
+  font-family: 'Inter', 'Arial', sans-serif;
   background-color: #202020;
   padding: 74px 70px 70px;
   min-width: 320px;
   margin: 0;
   height: calc(100vh - 74px);
-  /* max-height: 596px; */
+  max-height: 596px;
   box-sizing: border-box;
   position: relative;
 }
@@ -103,13 +103,6 @@
   transition: 200ms;
 }
 
-/* .profile__form-label > .profile__input:invalid:not([value=""]) + .profile__input-error {
-  opacity: 1;
-} */
-/* .profile__form-label > .profile__input:invalid:not([value=""]) + .profile__input-error {
-  opacity: 1;
-} */
-
 .profile__error_visible,
 .profile__input-error_visible {
   opacity: 1;
@@ -125,7 +118,6 @@
   margin: 0;
   padding: 0;
   width: 100%;
-
 }
 
 .profile__btn_type_submit {
@@ -135,7 +127,7 @@
 }
 
 .profile__btn_type_disabled {
-  color: #C2C2C2;
+  color: #c2c2c2;
 }
 
 .profile__btn_type_logout {
@@ -144,8 +136,7 @@
 }
 
 .profile__btn_type_submit:not(:disabled):hover,
-.profile__btn_type_logout:not(:disabled):hover
- {
+.profile__btn_type_logout:not(:disabled):hover {
   opacity: 0.8;
   cursor: pointer;
 }

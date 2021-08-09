@@ -1,10 +1,10 @@
-import { NavLink } from "react-router-dom";
-import React from "react";
-import "./BurgerMenu.css";
-import AccountButton from "../AccountButton/AccountButton";
+import { NavLink } from 'react-router-dom';
+import React from 'react';
+import './BurgerMenu.css';
+import AccountButton from '../AccountButton/AccountButton';
 
 export default function BurgerMenu({ onClose, isOpen }) {
-  const openedClass = isOpen ? "burger-menu_opened" : "";
+  const openedClass = isOpen ? 'burger-menu_opened' : '';
   function handleOverlayClick(evt) {
     if (evt.target === evt.currentTarget) {
       onClose();
@@ -15,36 +15,36 @@ export default function BurgerMenu({ onClose, isOpen }) {
       className={`burger-menu ${openedClass}`}
       onClick={handleOverlayClick}
     >
-      <div className="burger-menu__container">
+      <div className='burger-menu__container'>
         <button
-          type="reset"
-          aria-label="Close"
-          className="burger-menu__close"
+          type='reset'
+          aria-label='Close'
+          className='burger-menu__close'
           onClick={onClose}
         ></button>
-        <div className="burger-menu__links">
+        <div className='burger-menu__links'>
           <NavLink
             exact
-            to="/"
+            to='/'
             onClick={onClose}
-            activeClassName="burger-menu__link_active"
-            className="burger-menu__link"
+            activeClassName='burger-menu__link_active'
+            className='burger-menu__link'
           >
             Главная
           </NavLink>
           <NavLink
-            to="/movies"
+            to='/movies'
             onClick={onClose}
-            activeClassName="burger-menu__link_active"
-            className="burger-menu__link"
+            activeClassName='burger-menu__link_active'
+            className='burger-menu__link'
           >
             Фильмы
           </NavLink>
           <NavLink
-            to="/saved-movies"
+            to='/saved-movies'
             onClick={onClose}
-            activeClassName="burger-menu__link_active"
-            className="burger-menu__link "
+            activeClassName='burger-menu__link_active'
+            className='burger-menu__link '
           >
             Сохранённые фильмы
           </NavLink>

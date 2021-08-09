@@ -1,5 +1,5 @@
 .signin {
-  font-family: "Inter", "Arial", sans-serif;
+  font-family: 'Inter', 'Arial', sans-serif;
   background-color: #202020;
   padding: 70px;
   min-width: 320px;
@@ -111,7 +111,7 @@
   transition: 200ms;
 }
 
-.signin__input:invalid:not([value=""]) + .signin__input-error {
+.signin__input:invalid:not([value='']) + .signin__input-error {
   opacity: 1;
 }
 
@@ -140,8 +140,8 @@
 }
 
 .signin__btn_type_disabled {
-  background-color: #F8F8F8;
-  color: #C2C2C2;
+  background-color: #f8f8f8;
+  color: #c2c2c2;
 }
 
 .signin__form-link-wrapper {

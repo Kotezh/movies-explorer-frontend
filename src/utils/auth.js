@@ -1,18 +1,18 @@
-import { BASE_URL } from "./constants";
+import { BASE_URL } from './constants';
 import {
   AUTH_ERROR_TEXT,
   EMAIL_ERROR_TEXT,
   REGISTRATON_ERROR_TEXT,
   INTERNAL_SERVER_ERROR_TEXT,
   CREDENTIALS_ERROR_TEXT,
-  TOKEN_ERROR_TEXT
-} from "./constants";
+  TOKEN_ERROR_TEXT,
+} from './constants';
 
 export const register = (name, email, password) => {
   return fetch(`${BASE_URL}/signup`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({ name, email, password }),
   }).then((res) => {
@@ -22,7 +22,7 @@ export const register = (name, email, password) => {
       if (res.status === 500) {
         throw Error(INTERNAL_SERVER_ERROR_TEXT);
       } else if (res.status === 409) {
-        throw Error(EMAIL_ERROR_TEXT)
+        throw Error(EMAIL_ERROR_TEXT);
       } else {
         throw Error(REGISTRATON_ERROR_TEXT);
       }
@@ -32,11 +32,11 @@ export const register = (name, email, password) => {
 
 export const login = (email, password) => {
   return fetch(`${BASE_URL}/signin`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
-    credentials: "include",
+    credentials: 'include',
     body: JSON.stringify({ email, password }),
   }).then((res) => {
     if (res.ok) {
@@ -55,11 +55,11 @@ export const login = (email, password) => {
 
 export const checkToken = () => {
   return fetch(`${BASE_URL}/users/me`, {
-    method: "GET",
+    method: 'GET',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
-    credentials: "include",
+    credentials: 'include',
   }).then((res) => {
     if (res.ok) {
       return res.json();

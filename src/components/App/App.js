@@ -1,48 +1,36 @@
-import React, { useEffect, useState } from "react";
-import {
-  Redirect,
-  Route,
-  Switch,
-  useHistory,
-  useLocation,
-} from "react-router-dom";
-import "./App.css";
-import Header from "../Header/Header";
-import Footer from "../Footer/Footer";
-import Main from "../Main/Main";
-import Movies from "../Movies/Movies";
-import SavedMovies from "../SavedMovies/SavedMovies";
-import Register from "../Register/Register";
-import Login from "../Login/Login";
-import Profile from "../Profile/Profile";
-import NotFound from "../NotFound/NotFound";
-import ProtectedRoute from "../ProtectedRoute";
-import BurgerMenu from "../BurgerMenu/BurgerMenu";
-import InfoTooltip from "../InfoTooltip/InfoTooltip";
-import { CurrentUserContext } from "../../contexts/CurrentUserContext";
-import mainApi from "../../utils/MainApi";
-import moviesApi from "../../utils/MoviesApi";
-import { ESC_KEYCODE, MAGIC_ERROR_TEXT } from "../../utils/constants";
-import * as auth from "../../utils/auth";
-import { useMediaQuery } from "react-responsive";
+import React, { useEffect, useState } from 'react';
+import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
+import './App.css';
+import Header from '../Header/Header';
+import Footer from '../Footer/Footer';
+import Main from '../Main/Main';
+import Movies from '../Movies/Movies';
+import SavedMovies from '../SavedMovies/SavedMovies';
+import Register from '../Register/Register';
+import Login from '../Login/Login';
+import Profile from '../Profile/Profile';
+import NotFound from '../NotFound/NotFound';
+import ProtectedRoute from '../ProtectedRoute';
+import BurgerMenu from '../BurgerMenu/BurgerMenu';
+import InfoTooltip from '../InfoTooltip/InfoTooltip';
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
+import mainApi from '../../utils/MainApi';
+import moviesApi from '../../utils/MoviesApi';
+import { ESC_KEYCODE, MAGIC_ERROR_TEXT } from '../../utils/constants';
+import * as auth from '../../utils/auth';
+import { useMediaQuery } from 'react-responsive';
 
 export default function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [isError, setIsError] = useState(false);
   const [apiErrorText, setApiErrorText] = useState('');
-  // const [deletedMovie, setDeletedMovie] = useState(null);
   const [movies, setMovies] = useState([]);
   const [savedMovies, setSavedMovies] = useState([]);
-  // const [isNoData, setIsNoData] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isBurgerOpen, setIsBurgerOpen] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  // const [values, setValues] = useState(null);
-  // const [errors, setErrors] = useState({});
-  // const [isValid, setIsValid] = useState(false);
-  // const [submitError, setSubmitError] = useState("");
   const history = useHistory();
   const location = useLocation().pathname;
   const isMobile = useMediaQuery({ maxWidth: 630 });
@@ -51,12 +39,19 @@ export default function App() {
   useEffect(() => {
     setIsError(false);
     setIsLoading(false);
-    // setIsNoData(false);
   }, [location]);
 
   useEffect(() => {
-    getUserInfo();
-  }, []);
+    auth.checkToken().then((user) => {
+      setCurrentUser(user.data);
+      setLoggedIn(true);
+      history.push('/movies');
+    })
+    .catch((err) => {
+      console.log(err);
+      setIsError(true);
+    });
+  }, [history]);
 
   function getAllMovies() {
     setIsLoading(true);
@@ -78,7 +73,9 @@ export default function App() {
     mainApi
       .getSavedMovies()
       .then((userMovies) => {
-        setSavedMovies(userMovies.data.filter((s) => s.owner === currentUser._id));
+        setSavedMovies(
+          userMovies.data.filter((s) => s.owner === currentUser._id)
+        );
       })
       .catch(() => {
         setIsError(true);
@@ -141,25 +138,14 @@ export default function App() {
 
   function handleBurgerClick() {
     setIsBurgerOpen(true);
-    document.addEventListener("keydown", handleEscClose);
+    document.addEventListener('keydown', handleEscClose);
   }
 
   function closeAll() {
     setIsBurgerOpen(false);
     setIsInfoTooltipOpen(false);
-    document.removeEventListener("keydown", handleEscClose);
+    document.removeEventListener('keydown', handleEscClose);
   }
-
-  // function resetForm() {
-  //   setValues({});
-  //   setErrors({});
-  //   setIsValid(false);
-  //   setSubmitError("");
-  // }
-
-  // useEffect(() => {
-  //   resetForm();
-  // }, []);
 
   function handleUpdateUser(name, email) {
     setIsLoading(true);
@@ -189,7 +175,7 @@ export default function App() {
     auth
       .register(name, email, password)
       .then(() => {
-        history.push("/signin");
+        history.push('/signin');
         setApiErrorText('');
         setIsError(false);
         setIsSuccess(true);
@@ -205,25 +191,23 @@ export default function App() {
         }
       })
       .finally(() => {
-        // setIsInfoTooltipOpen(true);
         setIsLoading(false);
       });
   }
 
   function handleLogin(email, password) {
     setIsLoading(true);
-    // apiErrorText(false);
     auth
       .login(email, password)
       .then((data) => {
         console.log(data);
-        if (data.token === "ok") {
+        if (data.token === 'ok') {
           getUserInfo();
           setLoggedIn(true);
           setCurrentUser({ email: email });
           setIsError(false);
           setApiErrorText('');
-          history.push("/movies");
+          history.push('/movies');
         }
       })
       .catch((err) => {
@@ -241,13 +225,13 @@ export default function App() {
   }
 
   function handleLogout() {
-    localStorage.removeItem("jwt");
-    history.push("/signin");
+    localStorage.removeItem('jwt');
+    history.push('/signin');
   }
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
-      <div className="app">
+      <div className='app'>
         {isBurgerOpen && <BurgerMenu onClose={closeAll} />}
         <Header
           onClose={closeAll}
@@ -258,12 +242,12 @@ export default function App() {
           loggedIn={loggedIn}
         />
         <Switch>
-          <Route path="/" exact>
+          <Route path='/' exact>
             <Main />
           </Route>
           <ProtectedRoute
             exact
-            path="/movies"
+            path='/movies'
             component={Movies}
             isError={isError}
             isLoading={isLoading}
@@ -279,7 +263,7 @@ export default function App() {
           />
           <ProtectedRoute
             exact
-            path="/saved-movies"
+            path='/saved-movies'
             component={SavedMovies}
             isError={isError}
             isLoading={isLoading}
@@ -292,7 +276,7 @@ export default function App() {
             getSavedMovies={getSavedMovies}
           />
           <ProtectedRoute
-            path="/profile"
+            path='/profile'
             component={Profile}
             onSignOut={handleLogout}
             loggedIn={loggedIn}
@@ -302,25 +286,23 @@ export default function App() {
             apiErrorText={apiErrorText}
             isError={isError}
           />
-          <Route path="/signup">
+          <Route path='/signup'>
             <Register
               onRegister={handleRegister}
               apiErrorText={apiErrorText}
-
               isLoading={isLoading}
               isError={isError}
             />
           </Route>
-          <Route path="/signin">
+          <Route path='/signin'>
             <Login
               onLogin={handleLogin}
               isError={isError}
               apiErrorText={apiErrorText}
-
               isLoading={isLoading}
             />
           </Route>
-          <Route path="*">
+          <Route path='*'>
             <NotFound />
           </Route>
         </Switch>

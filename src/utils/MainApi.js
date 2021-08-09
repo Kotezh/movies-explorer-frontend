@@ -1,4 +1,9 @@
-import { BASE_URL, MOVIES_URL, PROFILE_ERROR_TEXT, INTERNAL_SERVER_ERROR_TEXT } from "./constants";
+import {
+  BASE_URL,
+  MOVIES_URL,
+  PROFILE_ERROR_TEXT,
+  INTERNAL_SERVER_ERROR_TEXT,
+} from './constants';
 
 class MainApi {
   constructor(config) {
@@ -16,25 +21,25 @@ class MainApi {
   getSavedMovies() {
     return fetch(`${this.url}/movies`, {
       headers: this.headers,
-      credentials: "include",
+      credentials: 'include',
     }).then(this._parseResponse);
   }
 
   getUserInfo() {
     return fetch(`${this.url}/users/me`, {
       headers: this.headers,
-      credentials: "include",
+      credentials: 'include',
     }).then(this._parseResponse);
   }
 
   updateUserInfo(name, email) {
     return fetch(`${this.url}/users/me`, {
-      method: "PATCH",
+      method: 'PATCH',
       headers: this.headers,
-      credentials: "include",
+      credentials: 'include',
       body: JSON.stringify({
         name: name,
-        email: email
+        email: email,
       }),
     }).then((res) => {
       if (res.ok) {
@@ -45,15 +50,15 @@ class MainApi {
         } else {
           throw Error(PROFILE_ERROR_TEXT);
         }
-      };
-    })
+      }
+    });
   }
 
   saveMovie(movie) {
     return fetch(`${this.url}/movies`, {
-      method: "POST",
+      method: 'POST',
       headers: this.headers,
-      credentials: "include",
+      credentials: 'include',
       body: JSON.stringify({
         nameRU: movie.nameRU,
         nameEN: movie.nameEN,
@@ -72,9 +77,9 @@ class MainApi {
 
   deleteMovie(movieId) {
     return fetch(`${this.url}/movies/${movieId}`, {
-      method: "DELETE",
+      method: 'DELETE',
       headers: this.headers,
-      credentials: "include",
+      credentials: 'include',
     }).then(this._parseResponse);
   }
 }
@@ -82,7 +87,7 @@ class MainApi {
 const config = {
   baseUrl: BASE_URL,
   headers: {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
   },
 };
 

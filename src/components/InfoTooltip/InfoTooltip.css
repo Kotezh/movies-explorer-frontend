@@ -27,13 +27,6 @@
   box-shadow: 10px 10px 25px rgba(0, 0, 0, 0.15);
 }
 
-@media screen and (max-width: 625px) {
-  .popup__container {
-    min-width: 282px;
-    padding: 25px 22px;
-  }
-}
-
 .popup__close {
   background: url(../../images/close-icon.svg);
   border: none;
@@ -52,14 +45,6 @@
 .popup__close:hover {
   cursor: pointer;
   opacity: 0.6;
-}
-
-@media screen and (max-width: 625px) {
-  .popup__close {
-    width: 26px;
-    height: 26px;
-    right: 0;
-  }
 }
 
 .popup_opened {
@@ -83,7 +68,7 @@
   margin: 0 0 32px;
 }
 
-.popup__tooltip-text{
+.popup__tooltip-text {
   font-weight: 900;
   font-size: 24px;
   line-height: 1.21;
@@ -92,4 +77,16 @@
   margin: 0;
   text-align: center;
   max-width: 358px;
+}
+
+@media screen and (max-width: 625px) {
+  .popup__container {
+    min-width: 282px;
+    padding: 25px 22px;
+  }
+  .popup__close {
+    width: 26px;
+    height: 26px;
+    right: 0;
+  }
 }

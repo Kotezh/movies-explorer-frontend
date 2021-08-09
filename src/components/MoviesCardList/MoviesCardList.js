@@ -1,16 +1,17 @@
-import React, { useEffect, useState, useCallback } from "react";
-import "./MoviesCardList.css";
-import MoviesCard from "../MoviesCard/MoviesCard";
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import './MoviesCardList.css';
+import MoviesCard from '../MoviesCard/MoviesCard';
 import {
   DESKTOP_ROW_AMOUNT,
   DESKTOP_CARDS_AMOUNT,
   TABLET_ROW_AMOUNT,
   TABLET_CARDS_AMOUNT,
   MOBILE_CARDS_AMOUNT,
+  MOBILE_ROW_AMOUNT,
   NOT_FOUND_ERROR_TEXT,
-  ANY_ERROR_TEXT
-} from "../../utils/constants";
-import { useLocation } from "react-router-dom";
+  ANY_ERROR_TEXT,
+} from '../../utils/constants';
 
 export default function MoviesCardList({
   searchedMovies,
@@ -20,15 +21,17 @@ export default function MoviesCardList({
   isNoData,
   isMobile,
   isTablet,
-  isError
+  isError,
 }) {
   const location = useLocation();
   const [movies, setMovies] = useState(searchedMovies);
+  const [moviesAmountRow, setMoviesAmountRow] = useState(rowAmount());
+  const [moviesAmount, setMoviesAmount] = useState(cardsAmount());
 
-  // ===============================================================
-  const rowAmount = () => {
+  // resize
+  function rowAmount() {
     if (isMobile) {
-      return TABLET_ROW_AMOUNT
+      return MOBILE_ROW_AMOUNT;
     } else if (isTablet) {
       return TABLET_ROW_AMOUNT;
     } else {
@@ -36,7 +39,7 @@ export default function MoviesCardList({
     }
   };
 
-  const cardsAmount = () => {
+  function cardsAmount() {
     if (isMobile) {
       return MOBILE_CARDS_AMOUNT;
     } else if (isTablet) {
@@ -46,39 +49,35 @@ export default function MoviesCardList({
     }
   };
 
-  const resize = () => {
+  function resize() {
     setMoviesAmountRow(rowAmount());
-  }
+  };
 
-  const [moviesAmountRow, setMoviesAmountRow] = useState(rowAmount());
-  const [moviesAmount, setMoviesAmount] = useState(cardsAmount());
-
-  const resetResizeTimer = () => {
+  function resetResizeTimer () {
     let resizeTimer = false;
 
-    const setResizeTimer = () => {
+    function setResizeTimer () {
       if (resizeTimer) clearTimeout(resizeTimer);
       resizeTimer = setTimeout(resize, 1500);
-    }
-
+    };
     return setResizeTimer;
-  }
+  };
 
   window.addEventListener('resize', resetResizeTimer());
   // ===============================================================
 
   useEffect(() => {
-    console.log(savedMovies);
-    console.log(searchedMovies)
-    if (location.pathname === "/movies") {
-      setMovies(searchedMovies.map((m) => {
-        const movie = { ...m };
-        movie.isSaved = savedMovies.map((s) => s.movieId).includes(m.id);
-        movie._id = savedMovies.find((s) => s.movieId === m.id)?._id;
-        return movie;
-      }))
+    if (location.pathname === '/movies') {
+      setMovies(
+        searchedMovies.map((m) => {
+          const movie = { ...m };
+          movie.isSaved = savedMovies.map((s) => s.movieId).includes(m.id);
+          movie._id = savedMovies.find((s) => s.movieId === m.id)?._id;
+          return movie;
+        })
+      );
     }
-    if (location.pathname === "/saved-movies") {
+    if (location.pathname === '/saved-movies') {
       setMovies(searchedMovies);
     }
   }, [location.pathname, searchedMovies, savedMovies]);
@@ -89,13 +88,14 @@ export default function MoviesCardList({
   }
 
   return (
-    <section className="movies-section">
-      <div className="movies-section__list">
+    <section className='movies-section'>
+      <div className='movies-section__list'>
         {isError ? (
-          <span className="movies-section__error">{ANY_ERROR_TEXT}</span>
-
-        ) : (isNoData ? (
-          <span className="movies-section__no-data">{NOT_FOUND_ERROR_TEXT}</span>
+          <span className='movies-section__error'>{ANY_ERROR_TEXT}</span>
+        ) : isNoData ? (
+          <span className='movies-section__no-data'>
+            {NOT_FOUND_ERROR_TEXT}
+          </span>
         ) : (
           movies
             .filter((movie, index) => index < moviesAmount)
@@ -107,10 +107,10 @@ export default function MoviesCardList({
                 onMovieDelete={onMovieDelete}
               />
             ))
-        ))}
+        )}
       </div>
       {movies?.length > moviesAmount && !isError && (
-        <button onClick={handleClickMore} className="movies-section__btn-more">
+        <button onClick={handleClickMore} className='movies-section__btn-more'>
           Ещё
         </button>
       )}
