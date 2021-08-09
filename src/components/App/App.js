@@ -232,7 +232,7 @@ export default function App() {
 
   function handleLogout() {
     localStorage.removeItem('jwt');
-    history.push('/signin');
+    history.push('/');
   }
 
   return (
