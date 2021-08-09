@@ -231,8 +231,19 @@ export default function App() {
   }
 
   function handleLogout() {
-    localStorage.removeItem('jwt');
-    history.push('/');
+    auth
+      .logout()
+      .then((res) => {
+        if (res.logout === 'ok') {
+          setLoggedIn(false);
+          setMovies([]);
+          setSavedMovies([]);
+          history.push('/');
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   return (

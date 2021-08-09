@@ -53,6 +53,29 @@ export const login = (email, password) => {
   });
 };
 
+export const logout = () => {
+  return fetch(`${BASE_URL}/signout`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+  }).then((res) => {
+    if (res.ok) {
+      return res.json();
+    } else {
+      if (res.status === 500) {
+        throw Error(INTERNAL_SERVER_ERROR_TEXT);
+      } else if (res.status === 401) {
+        throw Error(CREDENTIALS_ERROR_TEXT);
+      } else {
+        throw Error(AUTH_ERROR_TEXT);
+      }
+    }
+  });
+};
+
+
 export const checkToken = () => {
   return fetch(`${BASE_URL}/users/me`, {
     method: 'GET',
