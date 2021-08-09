@@ -109,7 +109,7 @@ export default function MoviesCardList({
             ))
         )}
       </div>
-      {movies?.length > moviesAmount && !isError && (
+      {movies?.length > moviesAmount && !isError && location.pathname === '/movies' && (
         <button onClick={handleClickMore} className='movies-section__btn-more'>
           Ещё
         </button>
