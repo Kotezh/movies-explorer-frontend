@@ -42,15 +42,17 @@ export default function App() {
   }, [location]);
 
   useEffect(() => {
-    auth.checkToken().then((user) => {
-      setCurrentUser(user.data);
-      setLoggedIn(true);
-      history.push('/movies');
-    })
-    .catch((err) => {
-      console.log(err);
-      setIsError(true);
-    });
+    auth
+      .checkToken()
+      .then((user) => {
+        setCurrentUser(user.data);
+        setLoggedIn(true);
+        history.push('/movies');
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsError(true);
+      });
   }, [history]);
 
   function getAllMovies() {
@@ -155,6 +157,8 @@ export default function App() {
         setCurrentUser(userData.data);
         setApiErrorText('');
         setIsError(false);
+        setIsSuccess(true);
+        setIsInfoTooltipOpen(true);
       })
       .catch((err) => {
         console.log(err);
@@ -164,6 +168,8 @@ export default function App() {
         } else {
           setApiErrorText(err.message);
         }
+        setIsSuccess(false);
+        setIsInfoTooltipOpen(true);
       })
       .finally(() => {
         setIsLoading(false);
@@ -175,15 +181,15 @@ export default function App() {
     auth
       .register(name, email, password)
       .then(() => {
-        history.push('/signin');
-        setApiErrorText('');
-        setIsError(false);
         setIsSuccess(true);
+        handleLogin(email, password);
+        setIsInfoTooltipOpen(true);
       })
       .catch((err) => {
         console.log(err);
         setIsError(true);
         setIsSuccess(false);
+        setIsInfoTooltipOpen(true);
         if (err.message === 'Failed to fetch') {
           setApiErrorText(MAGIC_ERROR_TEXT);
         } else {
@@ -285,6 +291,7 @@ export default function App() {
             onUpdateUser={handleUpdateUser}
             apiErrorText={apiErrorText}
             isError={isError}
+            success={isSuccess}
           />
           <Route path='/signup'>
             <Register

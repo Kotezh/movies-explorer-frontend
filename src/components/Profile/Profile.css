@@ -5,7 +5,7 @@
   min-width: 320px;
   margin: 0;
   height: calc(100vh - 74px);
-  max-height: 1101px;
+  max-height: 950px;
   box-sizing: border-box;
   position: relative;
 }

@@ -27,7 +27,6 @@ export default function Movies({
     if (!searchValue) {
       setIsSearchError(true);
     } else {
-      console.log(searchValue, shortsCheckboxValue);
       setIsLoading(true);
       !movies.length && getAllMovies();
       !movies.length && getSavedMovies();

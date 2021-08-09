@@ -16,6 +16,8 @@ export const PATTERN_EMAIL_ERROR_TEXT = 'Некорректный формат e
 export const PATTERN_PASSWORD_ERROR_TEXT =
   'Строчные и прописные латинские буквы, цифры. Минимум 8 символов.';
 export const PROFILE_ERROR_TEXT = 'При обновлении профиля произошла ошибка.';
+export const SUCCESS_PROFILE_TEXT = 'Данные успешно обновлены';
+export const SUCCESS_REG_TEXT = 'Вы успешно зарегистрировались!';
 export const EMAIL_ERROR_TEXT = 'Пользователь с таким email уже существует.';
 export const REGISTRATON_ERROR_TEXT =
   'При регистрации пользователя произошла ошибка.';
